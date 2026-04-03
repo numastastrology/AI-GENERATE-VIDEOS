@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Copy, Check, Download, ArrowLeft, Play } from 'lucide-react';
+import { Copy, Check, Download, ArrowLeft, Play, Binary } from 'lucide-react';
 import './ResultView.css';
+
+import { Cpu, Shield, Zap, Info } from 'lucide-react';
 
 const ResultView = ({ promptData, onBack, onGenerateVideo }) => {
   const [copied, setCopied] = useState(false);
@@ -12,66 +14,95 @@ const ResultView = ({ promptData, onBack, onGenerateVideo }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleDownloadJSON = () => {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(editableJson);
-    const downloadAnchorNode = document.createElement('a');
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", "cinematic_prompt.json");
-    document.body.appendChild(downloadAnchorNode); 
-    downloadAnchorNode.click();
-    downloadAnchorNode.remove();
-  };
+  const engineInfo = promptData.engine_metadata || {};
 
   return (
-    <div className="result-container">
+    <div className="result-container animate-fade-in">
       <div className="result-header">
         <button className="btn-icon-back" onClick={onBack}>
-          <ArrowLeft size={20} /> Edit Idea
+          <ArrowLeft size={18} /> Edit Idea
         </button>
-        <h2 className="gradient-text">Review and Confirm Prompt</h2>
-        <p className="subtitle">You can edit the structured JSON before generating the final video.</p>
+        <h2 className="gradient-text">Neural Manifest Confirmed</h2>
+        <p className="subtitle">Review the structured sequence and neural architecture parameters.</p>
       </div>
 
-      <div className="code-panel glass-panel" style={{ flex: 1, minHeight: '400px' }}>
-        <div className="code-header">
-          <span>generated_prompt.json</span>
-          <div className="code-actions">
-            <button onClick={handleCopy} className="action-btn">
-              {copied ? <Check size={16} className="text-success" /> : <Copy size={16} />}
-              {copied ? 'Copied' : 'Copy JSON'}
-            </button>
-            <button onClick={handleDownloadJSON} className="action-btn text-accent">
-              <Download size={16} /> Export JSON
-            </button>
+      <div className="result-layout">
+        <div className="code-panel glass-panel">
+          <div className="code-header">
+            <div className="flex-center gap-2">
+              <Binary size={16} />
+              <span>manifest_v3.json</span>
+            </div>
+            <div className="code-actions">
+              <button onClick={handleCopy} className="action-btn">
+                {copied ? <Check size={14} /> : <Copy size={14} />}
+                {copied ? 'Copied' : 'Copy'}
+              </button>
+            </div>
+          </div>
+          <div className="code-content">
+            <textarea 
+              value={editableJson}
+              onChange={(e) => setEditableJson(e.target.value)}
+              className="json-textarea"
+              spellCheck="false"
+            />
           </div>
         </div>
-        <div className="code-content" style={{ padding: 0 }}>
-          <textarea 
-            value={editableJson}
-            onChange={(e) => setEditableJson(e.target.value)}
-            style={{
-              width: '100%',
-              height: '400px',
-              backgroundColor: '#0a0a0a',
-              color: '#00d2ff',
-              fontFamily: 'Courier New, Courier, monospace',
-              fontSize: '0.9rem',
-              border: 'none',
-              padding: '20px',
-              resize: 'none',
-              outline: 'none'
-            }}
-          />
+
+        <div className="architecture-sidebar glass-panel">
+          <div className="side-header">
+            <Cpu size={18} />
+            <h4>Neural Architecture</h4>
+          </div>
+          
+          <div className="arch-item">
+            <label>ENGINE</label>
+            <span>{promptData.ai_engine}</span>
+          </div>
+
+          <div className="arch-item">
+            <label>ARCHITECTURE</label>
+            <span>{engineInfo.architecture || 'Standard Diffusion'}</span>
+          </div>
+
+          <div className="arch-item">
+            <label>STRENGTHS</label>
+            <div className="tag-cloud">
+              {(engineInfo.strengths || []).map((s, i) => (
+                <span key={i} className="arch-tag">{s}</span>
+              ))}
+            </div>
+          </div>
+
+          <div className="arch-item">
+            <label>META-OPTIMIZATION</label>
+            <div className="meta-details">
+              {engineInfo.adversarial_params ? (
+                <>
+                  <div className="meta-line">Loss: {engineInfo.adversarial_params.loss_function}</div>
+                  <div className="meta-line">Confidence: {engineInfo.adversarial_params.discriminator_confidence_threshold * 100}%</div>
+                </>
+              ) : (
+                <div className="meta-line">Standard Latent Denoising</div>
+              )}
+            </div>
+          </div>
+
+          <div className="arch-note">
+             <Info size={14} />
+             <p>Optimized for {promptData.aspect_ratio?.selected} cinematic output.</p>
+          </div>
         </div>
       </div>
 
       <div className="export-actions">
         <button 
-          className="btn-primary flex-center gap-2" 
+          className="btn-primary flex-center gap-2 generate-btn" 
           onClick={onGenerateVideo}
-          style={{ padding: '16px 32px', fontSize: '1.2rem', width: '100%' }}
         >
-          <Play size={24} /> Confirm Prompt & Generate Video (Veo 3 / Seedance)
+          <Play size={20} fill="currentColor" /> 
+          EXECUTE NEURAL RENDERING
         </button>
       </div>
     </div>

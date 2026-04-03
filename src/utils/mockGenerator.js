@@ -55,10 +55,13 @@ const GENRE_ACTIONS = {
     "Aerial shot of light patterns across the crowd",
   ],
   'Sci-Fi': [
-    "Spacecraft enters planetary atmosphere",
-    "Hero interfaces with holographic data stream",
-    "Alien terrain establishing wide shot",
-    "Energy weapon discharge in extreme slow-motion",
+    "PHASE 1: Invisible Shadow — Elite operative (Hero) covered in mud, scanning jungle clearing",
+    "Plasma Caster Laser Lock — Red dots dance across Hero's chest from Ceiba tree",
+    "Counter-Blast — 40mm grenade disrupts Cloaking Device, Predator flickers",
+    "PHASE 2: Guerrilla Tactics — Predator leaps with Combi-Stick telescoping spear",
+    "Log-Trap Ambush — Human emerges from brush, neon-green blood splatters ferns",
+    "PHASE 3: Honorable Kill — Wrist Blade lunge, Hero kicks leaves into hidden pit",
+    "AFTERMATH — Self-Destruct Gauntlet countdown, blinding white light consumes crater",
   ],
 };
 
@@ -245,9 +248,10 @@ const buildHeroVisualDNA = (heroName, genre, ideaText) => {
 };
 
 // ── Main export ───────────────────────────────────────────────────────────────
-export const parsePromptToMockJSON = (ideaText, duration, genre, includeHero, heroName = 'Lead Protagonist', aspectRatio = '16:9') => {
+// ── Main export ───────────────────────────────────────────────────────────────
+export const parsePromptToMockJSON = (ideaText, duration, genre, includeHero, heroName = 'Lead Protagonist', aspectRatio = '16:9', engine = 'GAN (Adversarial)') => {
   const keywords = extractKeywords(ideaText);
-  const numScenes = duration >= 3 ? 3 : duration >= 2 ? 2 : 1;
+  const numScenes = ideaText.toLowerCase().includes('predator') ? 10 : (duration >= 3 ? 3 : duration >= 2 ? 2 : 1);
   const durLabel = duration === 1 ? '1 minute' : `${duration} minutes`;
   const actions = GENRE_ACTIONS[genre] || GENRE_ACTIONS['Action'];
 
@@ -278,25 +282,47 @@ export const parsePromptToMockJSON = (ideaText, duration, genre, includeHero, he
     });
   }
 
-  if (genre === 'Action' && ideaText.toLowerCase().includes('russian')) {
-    characters.push({
-      role: 'Russian Opponent',
-      traits: ['intimidating', 'trained athlete', 'technical fighter'],
-      shot_preference: 'High Angle Shot during defeat, Over-the-Shoulder during attack',
-    });
-  } else if (genre !== 'Action') {
-    characters.push({
-      role: 'Supporting Lead',
-      traits: ['complementary presence', 'highly detailed'],
-      shot_preference: 'Reaction Shots and Over-the-Shoulder',
-    });
-  }
+  // Engine specific metadata based on user research
+  const engineMeta = {
+    'GAN (Adversarial)': {
+      architecture: 'Generator-Discriminator Competitive Network',
+      synthesis_engine: 'StyleGAN3-XL',
+      adversarial_params: {
+        generator_iterations: 12500,
+        discriminator_confidence_threshold: 0.992,
+        loss_function: 'Minimax Cross-Entropy',
+        optimization: 'Adversarial Refinement Pass',
+        mode_collapse_prevention: 'Enabled (Diversity Loss enabled)'
+      },
+      strengths: ['Hyper-realistic skin textures', 'Superior face preservation'],
+      type: 'Local/Offline Capability (Z Image optimized)'
+    },
+    'Stable Diffusion (Latent)': {
+      architecture: 'Latent Diffusion Model (LDM)',
+      sampler: 'DPMPP_2M_Karras',
+      denoising_steps: 50,
+      cfg_scale: 7.5,
+      latent_space: '512x512 Upscaled to 4K',
+      strengths: ['Highly customizable styles', 'Open-source flexibility'],
+      type: 'Local GPU Accelerated'
+    },
+    'Runway (Cinematic)': {
+      architecture: 'Gen-3 Alpha Neural Video',
+      consistency_mode: 'Temporal Vector Flow',
+      resolution: '4K Cinematic 60fps',
+      cloud_processing: true,
+      strengths: ['Fluid movement', 'Integrated editing suite'],
+      type: 'High-speed Cloud Rendering'
+    }
+  }[engine] || {};
 
   return {
     title: `${genre} Sequence — "${ideaText.substring(0, 40)}..."`,
     description: ideaText,
     duration: durLabel,
     hero: heroName,
+    ai_engine: engine,
+    engine_metadata: engineMeta,
     aspect_ratio: {
       selected: aspectRatio,
       css_value: aspectRatio === '2.39:1' ? '2.39/1' : aspectRatio === '9:16' ? '9/16' : aspectRatio === '4:3' ? '4/3' : '16/9',
@@ -305,6 +331,7 @@ export const parsePromptToMockJSON = (ideaText, duration, genre, includeHero, he
     face_preservation: {
       hero: heroName,
       directive: 'Hero face must remain undistorted across ALL shot types and angles',
+      gan_refinement: engine === 'GAN (Adversarial)',
       rules: [
         'Maintain facial proportions on Low Angle and High Angle shots using lens correction',
         'Apply face-stabilization on Tracking Shot and Whip Pan movements',
@@ -326,21 +353,16 @@ export const parsePromptToMockJSON = (ideaText, duration, genre, includeHero, he
       tone: `${genre} — cinematic, emotionally driven`,
       color_grading: 'High contrast, teal-orange color grade, volumetric light rays',
       cgi_effects: [
+        'AIGC Post-Processing — Super-resolution refinement (Nano Banana 2 Engine)',
+        'Neural Style Transfer — Consistent cinematic aesthetic',
         'Impact shockwave blast — radial energy ring on throw/strike contact',
         'Hyper-realistic sweat & dust particles — 240fps slow-motion droplets',
-        'Crowd digital compositing — 50,000 VFX crowd fill for arena shots',
         'Volumetric god rays — light shafts through arena roof during victory',
-        'Heat distortion shimmer — rising heat waves on mat surface',
-        'Motion blur trails — ghost image trail on fast throw arcs',
         'Depth-of-field rack focus — sharp/blur transition between combatants',
-        'Fire & sparks VFX — ignition sparks on impact ground contact',
-        'Atmospheric fog layers — low ground mist for dramatic tension',
-        'Digital crowd flags — national flag compositing on crowd reaction',
         'Sky replacement CGI — dramatic storm or golden dusk sky swap',
-        'Cinematic vignette pulse — border darkening on peak impact moments',
       ],
       effects: ['slow-motion impact frames', 'particle dust', 'lens flare', 'depth blur'],
-      audio: 'Orchestral score with percussion swells on impact moments',
+      audio: 'Lyria 3 Generated Narrative Score — Tribal-industrial hybrid with Taiko percussion and eerie woodwind flourishes',
     },
     ...(includeHero ? { hero_visual_analysis: buildHeroVisualDNA(heroName, genre, ideaText) } : {}),
   };
