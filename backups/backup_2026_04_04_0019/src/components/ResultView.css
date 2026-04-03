@@ -1,0 +1,152 @@
+/* Result View Styling */
+.result-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 80vh;
+}
+
+.result-header {
+  text-align: left;
+}
+
+.result-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.code-panel {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.code-header {
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.code-content {
+  flex: 1;
+}
+
+.json-textarea {
+  width: 100%;
+  height: 500px;
+  background: transparent;
+  color: #00d2ff;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.9rem;
+  padding: 20px;
+  border: none;
+  resize: none;
+  outline: none;
+  line-height: 1.5;
+}
+
+/* Sidebar Styling */
+.architecture-sidebar {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.side-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--accent-neon-blue);
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1rem;
+}
+
+.arch-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.arch-item label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}
+
+.arch-item span {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.arch-tag {
+  background: rgba(0, 210, 255, 0.1);
+  color: var(--accent-neon-blue);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(0, 210, 255, 0.2);
+}
+
+.meta-details {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-family: monospace;
+}
+
+.meta-line {
+  color: var(--accent-neon-purple);
+}
+
+.arch-note {
+  margin-top: auto;
+  display: flex;
+  gap: 0.8rem;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  align-items: flex-start;
+}
+
+/* Actions */
+.export-actions {
+  margin-top: 1rem;
+}
+
+.generate-btn {
+  width: 100%;
+  padding: 1.5rem;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  font-weight: 800;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .result-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .architecture-sidebar {
+    order: -1;
+  }
+}
