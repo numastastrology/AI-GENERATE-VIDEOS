@@ -1,0 +1,209 @@
+.form-container {
+  padding: 32px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-header {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.form-header h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 2rem;
+  margin-bottom: 8px;
+  background: linear-gradient(90deg, var(--accent-neon-blue), var(--accent-neon-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.prompt-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.half {
+  flex: 1;
+}
+
+.upload-zone {
+  border: 2px dashed var(--border-subtle);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.upload-zone:hover {
+  border-color: var(--accent-neon-blue);
+  background: rgba(0, 210, 255, 0.05);
+}
+
+.upload-zone.uploaded {
+  border-color: var(--accent-neon-pink);
+  background: rgba(255, 0, 127, 0.05);
+}
+
+.upload-zone input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.upload-zone.uploaded .upload-label {
+  color: var(--accent-neon-pink);
+}
+
+.submit-btn {
+  margin-top: 16px;
+  font-size: 1.1rem;
+  padding: 16px;
+  font-weight: 800;
+}
+
+.hero-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-thumb {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  object-position: center 15%;
+  border-radius: 50%;
+  border: 3px solid var(--accent-neon-pink);
+  box-shadow: 0 0 20px rgba(255, 0, 127, 0.5);
+}
+
+/* ── Aspect Ratio Selector ─────────────────────────────────────────────────── */
+.aspect-ratio-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ar-btn {
+  flex: 1;
+  min-width: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 10px 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ar-btn:hover {
+  border-color: var(--accent-neon-blue);
+  color: white;
+  background: rgba(0, 210, 255, 0.06);
+}
+
+.ar-btn.ar-active {
+  border-color: var(--accent-neon-blue);
+  background: rgba(0, 210, 255, 0.12);
+  color: var(--accent-neon-blue);
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.25);
+}
+
+.ar-ratio {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.ar-sub {
+  font-size: 0.65rem;
+  letter-spacing: 0.5px;
+  opacity: 0.7;
+}
+
+.hero-preview-label {
+  color: var(--accent-neon-pink);
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.hero-name-input {
+  background: rgba(255, 0, 127, 0.06);
+  border: 1px solid rgba(255, 0, 127, 0.35);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 12px 16px;
+  text-transform: uppercase;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hero-name-input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.hero-name-input:focus {
+  outline: none;
+  border-color: var(--accent-neon-pink);
+  box-shadow: 0 0 14px rgba(255, 0, 127, 0.3);
+}
